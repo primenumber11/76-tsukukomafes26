@@ -1,0 +1,538 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#080808">
+  <title>間違いだらけの教室｜エピローグ</title>
+  <style>
+    :root {
+      --site-primary: #e8e5de;
+      --site-on-primary: #111111;
+      --site-secondary: #252525;
+      --site-on-secondary: #f2f0eb;
+      --site-background: #080808;
+      --site-on-background: #f2f0eb;
+      --site-font-body: "Yu Mincho", "YuMincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Noto Serif JP", "MS PMincho", serif;
+      --site-font-heading: "Yu Mincho", "YuMincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Noto Serif JP", "MS PMincho", serif;
+      --site-heading-scale: 1;
+      --site-spacing-scale: 1;
+      --site-radius-scale: 1;
+      --site-decoration-opacity: 1;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      min-height: 100%;
+      background: #080808;
+    }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      background-color: light-dark(var(--site-background), #080808);
+      color: var(--site-on-background);
+      font-family: var(--site-font-body);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    .app {
+      min-height: 100vh;
+      min-height: 100svh;
+      width: 100%;
+      border-radius: 0;
+      background-color: light-dark(var(--site-background), #080808);
+    }
+
+    .view {
+      min-height: 100vh;
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: calc(40px * var(--site-spacing-scale)) 24px;
+    }
+
+    .view[hidden] {
+      display: none;
+    }
+
+    .intro {
+      background: #080808;
+      color: #f2f0eb;
+      text-align: center;
+    }
+
+    .intro-inner {
+      width: min(100%, 620px);
+      margin: auto;
+    }
+
+    .question {
+      margin: 0 0 42px;
+      font-family: var(--site-font-heading);
+      font-size: clamp(1.25rem, 4.4vw, 1.75rem);
+      font-weight: 400;
+      line-height: 1.9;
+      letter-spacing: 0.06em;
+    }
+
+    .choices {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+    }
+
+    .choice {
+      width: min(34vw, 150px);
+      min-width: 112px;
+      min-height: 52px;
+      padding: 12px 24px;
+      border: 1px solid #77736c;
+      border-radius: 2px;
+      background: var(--site-secondary);
+      color: var(--site-on-secondary);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 1rem;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      transition: background-color 180ms ease, color 180ms ease, border-color 180ms ease;
+    }
+
+    .choice:first-child {
+      border-color: var(--site-primary);
+      background: var(--site-primary);
+      color: var(--site-on-primary);
+    }
+
+    .choice:first-child:hover {
+      border-color: #ffffff;
+      background: #ffffff;
+      color: #111111;
+    }
+
+    .choice:not(:first-child):hover {
+      border-color: #c8c4bb;
+      background: #3a3936;
+      color: #f2f0eb;
+    }
+
+    .choice:focus-visible {
+      outline: 2px solid currentColor;
+      outline-offset: 5px;
+    }
+
+    .ending {
+      align-items: stretch;
+      justify-content: flex-start;
+      padding-top: clamp(72px, 12vh, 126px);
+      padding-bottom: 52px;
+    }
+
+    .ending--bad {
+      background: #080808;
+      color: #f1f0ec;
+    }
+
+    .ending--true {
+      background: #f5f4f0;
+      color: #171717;
+    }
+
+    .story {
+      width: min(100%, 720px);
+      margin: 0 auto;
+      font-family: var(--site-font-body);
+      font-size: clamp(1rem, 2.45vw, 1.12rem);
+      font-weight: 400;
+      line-height: 2.15;
+      letter-spacing: 0.045em;
+      overflow-wrap: anywhere;
+    }
+
+    .story p {
+      margin: 0 0 1.6em;
+    }
+
+    .epilogue-heading {
+      width: min(100%, 720px);
+      margin: 0 auto 2.4em;
+      font-family: var(--site-font-heading);
+      font-size: clamp(1.7rem, 4.5vw, 2.1rem);
+      font-weight: 400;
+      line-height: 1.4;
+      letter-spacing: 0.13em;
+    }
+
+    .story .news {
+      margin-bottom: 2.2em;
+    }
+
+    .story .scene-break {
+      margin-top: 2.1em;
+    }
+
+    .story .dialogue {
+      margin-top: 1.2em;
+      margin-bottom: 1.2em;
+    }
+
+    .ending--true .story {
+      color: #171717;
+    }
+
+    .ending--bad .story {
+      color: #f1f0ec;
+    }
+
+    .end-mark {
+      margin-top: 4.5em !important;
+      margin-bottom: 0 !important;
+      text-align: right;
+      font-family: var(--site-font-heading);
+      font-size: 0.84rem;
+      letter-spacing: 0.08em;
+    }
+
+    .ending--bad .end-mark {
+      color: #85827c;
+    }
+
+    .ending--true .end-mark {
+      color: #89867f;
+    }
+
+    .extras {
+      width: min(100%, 720px);
+      margin: 88px auto 0;
+      padding: 42px clamp(24px, 5vw, 52px) 48px;
+      border-radius: 2px;
+      font-family: var(--site-font-body);
+    }
+
+    .ending--bad .extras {
+      border: 1px solid #383838;
+      background: #202020;
+      color: #e8e5de;
+    }
+
+    .ending--true .extras {
+      border: 1px solid #dedbd3;
+      background: #e9e6de;
+      color: #282723;
+    }
+
+    .extra-section + .extra-section {
+      margin-top: 76px;
+    }
+
+    .extra-section h2 {
+      margin: 0 0 25px;
+      font-family: var(--site-font-heading);
+      font-size: 1.35rem;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+    }
+
+    .extra-placeholder {
+      margin: 0;
+      font-size: 0.9rem;
+      line-height: 1.9;
+      opacity: 0.58;
+    }
+
+    .credit-group + .credit-group {
+      margin-top: 27px;
+    }
+
+    .credit-group {
+      text-align: center;
+    }
+
+    .credit-group h3 {
+      margin: 0 0 10px;
+      font-size: 0.96rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+    }
+
+    .credit-group p {
+      margin: 0;
+      font-size: 0.9rem;
+      line-height: 2;
+      letter-spacing: 0.025em;
+    }
+
+    .credit-role {
+      display: inline-block;
+      min-width: 5.5em;
+    }
+
+    .credit-placeholder {
+      letter-spacing: 0.08em;
+    }
+
+    @media (max-width: 520px) {
+      .view {
+        padding-right: 22px;
+        padding-left: 22px;
+      }
+
+      .ending {
+        padding-top: 58px;
+        padding-bottom: 52px;
+      }
+
+      .story {
+        font-size: 1rem;
+        line-height: 2.05;
+        letter-spacing: 0.025em;
+      }
+
+      .story p {
+        margin-bottom: 1.45em;
+      }
+
+      .story .news {
+        margin-bottom: 2em;
+      }
+
+      .epilogue-heading {
+        margin-bottom: 2em;
+      }
+
+      .extras {
+        margin-top: 68px;
+        padding: 32px 23px 38px;
+      }
+
+      .extra-section + .extra-section {
+        margin-top: 62px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .choice {
+        transition: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="app" id="app">
+    <section class="view intro" id="intro" aria-labelledby="question">
+      <div class="intro-inner">
+        <h1 class="question" id="question">あなたは異変発見シートを提出しましたか？</h1>
+        <div class="choices" aria-label="回答を選択">
+          <button class="choice" type="button" data-ending="bad">Yes</button>
+          <button class="choice" type="button" data-ending="true">No</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="view ending ending--bad" id="bad" aria-label="エピローグ" hidden>
+      <h1 class="epilogue-heading">Epilogue</h1>
+      <article class="story">
+        <p class="news">「……続いてのニュースです。<br>
+        東京都内の高校で、二年生の生徒二十人全員と連絡が取れなくなっていることが分かりました。<br>
+        警視庁によりますと、生徒たちは文化祭の翌日から登校しておらず、保護者からも行方を心配する相談が相次いでいるということです。<br>
+        学校側は『生徒たちはそれぞれの事情で欠席している』と説明していますが、同じクラスの生徒全員が一斉に行方不明になるのは極めて異例です。<br>
+        警視庁は事件に巻き込まれた可能性もあるとみて、学校関係者から事情を聴くなど、捜査を進めています。」</p>
+
+        <p class="scene-break">朝のホームルーム。<br>
+        二年三組の教室には、担任の教師だけがいた。</p>
+
+        <p>机の上に出席簿を広げる。名前を一つずつ確認し、欠席の印をつけていく。<br>
+        最後の一人に印をつけたところで教師は顔を上げた。</p>
+
+        <p>教室の壁には学級目標が残っている。教卓の引き出しには、次のテストの解答が入っている。<br>
+        文化祭で使った掲示物は、既に片付けられていた。</p>
+
+        <p>教師は黒板に日付を書く。</p>
+
+        <p>チャイムが鳴る。</p>
+
+        <p>「皆さん、おはようございます！」</p>
+
+        <p>返事をする者はいなかった。</p>
+        <p class="end-mark">Bad End「欠席」</p>
+      </article>
+      <div class="extras">
+        <section class="extra-section" aria-labelledby="bad-explanation">
+          <h2 id="bad-explanation">Explanation</h2>
+          <p class="extra-placeholder">解説をここに掲載します。</p>
+        </section>
+        <section class="extra-section" aria-labelledby="bad-credits">
+          <h2 id="bad-credits">Credits</h2>
+          <div class="credit-group">
+            <h3>配役</h3>
+            <h4>生徒</h4>
+            <p>役名：＿＿＿＿／本名：＿＿＿＿</p>
+            <p>役名：＿＿＿＿／本名：＿＿＿＿</p>
+            <p>役名：＿＿＿＿／本名：＿＿＿＿</p>
+            <p>役名：＿＿＿＿／本名：＿＿＿＿</p>
+            <p>役名：＿＿＿＿／本名：＿＿＿＿</p>
+            <p>役名：＿＿＿＿／本名：＿＿＿＿</p>
+            <p>役名：＿＿＿＿／本名：＿＿＿＿</p>
+            <p>役名：＿＿＿＿／本名：＿＿＿＿</p>
+            <p>役名：＿＿＿＿／本名：＿＿＿＿</p>
+            <p>役名：＿＿＿＿／本名：＿＿＿＿</p>
+            <p>役名：＿＿＿＿／本名：＿＿＿＿</p>
+            <p>役名：＿＿＿＿／本名：＿＿＿＿</p>
+            <p>役名：＿＿＿＿／本名：＿＿＿＿</p>
+            <p>役名：＿＿＿＿／本名：＿＿＿＿</p>
+            <p>役名：＿＿＿＿／本名：＿＿＿＿</p>
+            <p>役名：＿＿＿＿／本名：＿＿＿＿</p>
+            <p>役名：＿＿＿＿／本名：＿＿＿＿</p>
+            <p>役名：＿＿＿＿／本名：＿＿＿＿</p>
+            <p>役名：＿＿＿＿／本名：＿＿＿＿</p>
+          </div>
+          <div class="credit-group">
+            <h4>被害者</h4>
+            <p>役名：＿＿＿＿／本名：＿＿＿＿</p>
+          </div>
+          <div class="credit-group">
+            <h4>先生</h4>
+            <p>役名：＿＿＿＿／本名：＿＿＿＿</p>
+          </div>
+          <div class="credit-group">
+            <h3>作業班</h3>
+            <p class="credit-placeholder">メンバー名を記入</p>
+          </div>
+          <div class="credit-group">
+            <h3>考察班</h3>
+            <p class="credit-placeholder">メンバー名を記入</p>
+          </div>
+          <div class="credit-group">
+            <h3>デザイン・広報班</h3>
+            <p class="credit-placeholder">メンバー名を記入</p>
+          </div>
+          <div class="credit-group">
+            <h3>デコ責</h3>
+            <p class="credit-placeholder">＿＿＿＿＿＿＿＿</p>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <section class="view ending ending--true" id="true" aria-label="エピローグ" hidden>
+      <h1 class="epilogue-heading">Epilogue</h1>
+      <article class="story">
+        <p class="news">「……続いてのニュースです。<br>
+        都内の高校で男子生徒が死亡した事件で、警視庁はきょう、同校に勤務する男性教員を傷害致死の疑いで逮捕しました。<br>
+        警視庁によりますと、教員は二学期中間テストの最終日、校内で男子生徒と口論になり、暴行を加えて死亡させた疑いが持たれています。また、事件後には、ほかの生徒に現場の片付けを手伝わせていたとみられています。<br>
+        この教員は、以前から生徒に集団カンニングを強要していた疑いもあり、警視庁は事件の詳しい経緯とともに、学校内での不正行為についても調べています。」</p>
+
+        <p class="scene-break">あの日の放課後、二年三組の教室には数十人の生徒が残っていた。<br>
+        生徒たちに囲まれた机の上にある一枚の異変発見シートには、<br>
+        「ポスターの裏の赤い跡は血痕。先生が生徒を殺し、その事実を隠している。テストの解答も先生が用意したものだ。」<br>
+        と記入されていた。</p>
+
+        <p class="dialogue">「本当に伝わったんだな。」<br>
+        一人がそう言うと、別の生徒がうなずいた。</p>
+
+        <p class="scene-break">最後の来場者が帰ったあと、彼らは警察に電話した。話すことは山ほどあった。今まで隠してきたことも、隠させられてきたことも。<br>
+        その電話は、ついに誰にも邪魔されることはなかった。</p>
+
+        <p class="scene-break">帰り際、生徒たちはいつものように笑顔で頭を下げた。</p>
+
+        <p>「ありがとうございました！帰ってからぜひ周りの人にも共有してください！」</p>
+
+        <p>あの言葉の意味を、来場者は分かってくれたのだろうか。</p>
+
+        <p class="scene-break">教室の壁から、二枚の賞状が取り外されていた。</p>
+        <p class="end-mark">True End「その先へ」</p>
+      </article>
+      <div class="extras">
+        <section class="extra-section" aria-labelledby="true-explanation">
+          <h2 id="true-explanation">Explanation</h2>
+          <p class="extra-placeholder">各異変の詳細と、ストーリー上の背景をここに掲載します。</p>
+        </section>
+        <section class="extra-section" aria-labelledby="true-credits">
+          <h2 id="true-credits">Credits</h2>
+          <div class="credit-group">
+            <h3>配役</h3>
+            <h4>生徒</h4>
+            <p>役名：＿＿＿＿／本名：＿＿＿＿</p>
+            <p>役名：＿＿＿＿／本名：＿＿＿＿</p>
+            <p>役名：＿＿＿＿／本名：＿＿＿＿</p>
+            <p>役名：＿＿＿＿／本名：＿＿＿＿</p>
+            <p>役名：＿＿＿＿／本名：＿＿＿＿</p>
+            <p>役名：＿＿＿＿／本名：＿＿＿＿</p>
+            <p>役名：＿＿＿＿／本名：＿＿＿＿</p>
+            <p>役名：＿＿＿＿／本名：＿＿＿＿</p>
+            <p>役名：＿＿＿＿／本名：＿＿＿＿</p>
+            <p>役名：＿＿＿＿／本名：＿＿＿＿</p>
+            <p>役名：＿＿＿＿／本名：＿＿＿＿</p>
+            <p>役名：＿＿＿＿／本名：＿＿＿＿</p>
+            <p>役名：＿＿＿＿／本名：＿＿＿＿</p>
+            <p>役名：＿＿＿＿／本名：＿＿＿＿</p>
+            <p>役名：＿＿＿＿／本名：＿＿＿＿</p>
+            <p>役名：＿＿＿＿／本名：＿＿＿＿</p>
+            <p>役名：＿＿＿＿／本名：＿＿＿＿</p>
+            <p>役名：＿＿＿＿／本名：＿＿＿＿</p>
+            <p>役名：＿＿＿＿／本名：＿＿＿＿</p>
+          </div>
+          <div class="credit-group">
+            <h4>被害者</h4>
+            <p>役名：＿＿＿＿／本名：＿＿＿＿</p>
+          </div>
+          <div class="credit-group">
+            <h4>先生</h4>
+            <p>役名：＿＿＿＿／本名：＿＿＿＿</p>
+          </div>
+          <div class="credit-group">
+            <h3>作業班</h3>
+            <p class="credit-placeholder">メンバー名を記入</p>
+          </div>
+          <div class="credit-group">
+            <h3>考察班</h3>
+            <p class="credit-placeholder">メンバー名を記入</p>
+          </div>
+          <div class="credit-group">
+            <h3>デザイン・広報班</h3>
+            <p class="credit-placeholder">メンバー名を記入</p>
+          </div>
+          <div class="credit-group">
+            <h3>デコ責</h3>
+            <p class="credit-placeholder">＿＿＿＿＿＿＿＿</p>
+          </div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (() => {
+      const intro = document.getElementById('intro');
+      const bad = document.getElementById('bad');
+      const good = document.getElementById('true');
+      const app = document.getElementById('app');
+
+      function showEnding(ending) {
+        intro.hidden = true;
+        bad.hidden = ending !== 'bad';
+        good.hidden = ending !== 'true';
+        app.dataset.state = ending;
+        window.scrollTo({ top: 0, behavior: 'instant' });
+        document.title = ending === 'bad'
+          ? '間違いだらけの教室｜欠席'
+          : '間違いだらけの教室｜その先へ';
+      }
+
+      document.querySelectorAll('[data-ending]').forEach((button) => {
+        button.addEventListener('click', () => showEnding(button.dataset.ending));
+      });
+    })();
+  </script>
+</body>
+</html>
